@@ -39,11 +39,19 @@ jobs:
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Configure CMake
+    - name: Configure CMake (macOS 12, 13)
+      if: ${{ (matrix.os == 'macos-12') || (matrix.os == 'macos-13') }}
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_PREFIX_PATH=${{ env.MACOS_QT5_HINT }}
+
+    - name: Configure CMake (macOS 14)
+      if: matrix.os == 'macos-14'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_PREFIX_PATH=${{ env.MACOS_QT5_HINT }} -DUSE_SSE=False
 
     - name: Build
       shell: bash

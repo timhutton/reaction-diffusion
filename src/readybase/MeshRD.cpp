@@ -362,7 +362,8 @@ void MeshRD::InitializeRenderPipeline(vtkRenderer* pRenderer,const Properties& r
             assign_attribute->Assign(chem.c_str(), vtkDataSetAttributes::SCALARS, vtkAssignAttribute::CELL_DATA);
             vtkSmartPointer<vtkThreshold> threshold = vtkSmartPointer<vtkThreshold>::New();
             threshold->SetInputConnection(assign_attribute->GetOutputPort());
-            threshold->ThresholdByUpper(contour_level);
+            threshold->SetUpperThreshold(contour_level);
+            threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_BY_UPPER);
             vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
             mapper->SetInputConnection(threshold->GetOutputPort());
             mapper->SetLookupTable(lut);
@@ -839,7 +840,8 @@ void MeshRD::GetAsMesh(vtkPolyData *out, const Properties &render_settings) cons
         assign_attribute->Assign(activeChemical.c_str(), vtkDataSetAttributes::SCALARS, vtkAssignAttribute::CELL_DATA);
         vtkSmartPointer<vtkThreshold> threshold = vtkSmartPointer<vtkThreshold>::New();
         threshold->SetInputConnection(assign_attribute->GetOutputPort());
-        threshold->ThresholdByUpper(contour_level);
+        threshold->SetUpperThreshold(contour_level);
+        threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_BY_UPPER);
         vtkSmartPointer<vtkDataSetSurfaceFilter> geom = vtkSmartPointer<vtkDataSetSurfaceFilter>::New();
         geom->SetInputConnection(threshold->GetOutputPort());
         geom->Update();

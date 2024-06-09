@@ -943,8 +943,12 @@ void ImageRD::InitializeVTKPipeline_3D(vtkRenderer* pRenderer,const Properties& 
             threshold->SetInputArrayToProcess(0, 0, 0,
                 vtkDataObject::FIELD_ASSOCIATION_CELLS,
                 vtkDataSetAttributes::SCALARS);
+#if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 1)
             threshold->SetUpperThreshold(contour_level);
             threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+#else
+            threshold->ThresholdByUpper(contour_level);
+#endif
 
             vtkSmartPointer<vtkGeometryFilter> geometry = vtkSmartPointer<vtkGeometryFilter>::New();
             geometry->SetInputConnection(threshold->GetOutputPort());
@@ -1381,9 +1385,12 @@ void ImageRD::GetAsMesh(vtkPolyData *out, const Properties &render_settings) con
                 threshold->SetInputArrayToProcess(0, 0, 0,
                     vtkDataObject::FIELD_ASSOCIATION_CELLS,
                     vtkDataSetAttributes::SCALARS);
+#if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 1)
                 threshold->SetUpperThreshold(contour_level);
                 threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
-
+#else
+                threshold->ThresholdByUpper(contour_level);
+#endif
                 vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
                 transform->Translate (-.5, -.5, -.5);
                 vtkSmartPointer<vtkTransformFilter> transformModel = vtkSmartPointer<vtkTransformFilter>::New();

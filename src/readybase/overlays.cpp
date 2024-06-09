@@ -358,7 +358,7 @@ class PerlinNoise: public BaseFill
             read_optional_attribute(node, "num_octaves", this->num_octaves);
         }
 
-        void Reseed()
+        void Reseed() override
         {
             this->perlin.reseed(static_cast<unsigned int>(time(NULL)));
         }

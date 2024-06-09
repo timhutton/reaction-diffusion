@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, macos-12]
+        os: [macos-14, macos-13, macos-12]
         build_type: [Debug, Release]
     runs-on: ${{ matrix.os }}
 
@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         brew install vtk wxmac
-        echo "MACOS_QT5_HINT=$(brew --prefix qt5)" >> $GITHUB_ENV
+        echo "MACOS_QT5_HINT=$(brew --prefix qt@5)" >> $GITHUB_ENV
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build

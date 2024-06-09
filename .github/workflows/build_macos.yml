@@ -33,7 +33,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        brew install vtk wxmac
+        brew install vtk wxwidgets
         echo "MACOS_QT5_HINT=$(brew --prefix qt@5)" >> $GITHUB_ENV
 
     - name: Create Build Environment

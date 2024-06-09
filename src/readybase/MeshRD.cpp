@@ -364,7 +364,7 @@ void MeshRD::InitializeRenderPipeline(vtkRenderer* pRenderer,const Properties& r
             threshold->SetInputConnection(assign_attribute->GetOutputPort());
 #if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 1)
             threshold->SetUpperThreshold(contour_level);
-            threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_BY_UPPER);
+            threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
 #else
             threshold->ThresholdByUpper(contour_level);
 #endif
@@ -846,7 +846,7 @@ void MeshRD::GetAsMesh(vtkPolyData *out, const Properties &render_settings) cons
         threshold->SetInputConnection(assign_attribute->GetOutputPort());
 #if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 1)
         threshold->SetUpperThreshold(contour_level);
-        threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_BY_UPPER);
+        threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
 #else
         threshold->ThresholdByUpper(contour_level);
 #endif

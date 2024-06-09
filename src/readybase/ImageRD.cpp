@@ -944,7 +944,7 @@ void ImageRD::InitializeVTKPipeline_3D(vtkRenderer* pRenderer,const Properties& 
                 vtkDataObject::FIELD_ASSOCIATION_CELLS,
                 vtkDataSetAttributes::SCALARS);
             threshold->SetUpperThreshold(contour_level);
-            threshold->SetThresholdFunction(vtkThreshold::Upper);
+            threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
 
             vtkSmartPointer<vtkGeometryFilter> geometry = vtkSmartPointer<vtkGeometryFilter>::New();
             geometry->SetInputConnection(threshold->GetOutputPort());
@@ -1102,7 +1102,7 @@ void ImageRD::AddPhasePlot(vtkRenderer* pRenderer,float scaling,float low,float 
     vtkSmartPointer<vtkImageThreshold> thresholdXmax = vtkSmartPointer<vtkImageThreshold>::New();
     thresholdXmax->SetInputConnection(thresholdXmin->GetOutputPort());
     thresholdXmax->SetUpperThreshold(maxVal);
-    thresholdXmax->SetThresholdFunction(vtkThreshold::Upper);
+    thresholdXmax->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
     thresholdXmax->ReplaceInOn();
     thresholdXmax->SetInValue(maxVal);
     thresholdXmax->ReplaceOutOff();
@@ -1126,7 +1126,7 @@ void ImageRD::AddPhasePlot(vtkRenderer* pRenderer,float scaling,float low,float 
     vtkSmartPointer<vtkImageThreshold> thresholdYmax = vtkSmartPointer<vtkImageThreshold>::New();
     thresholdYmax->SetInputConnection(thresholdYmin->GetOutputPort());
     thresholdYmax->SetUpperThreshold(maxVal);
-    thresholdYmax->SetThresholdFunction(vtkThreshold::Upper);
+    thresholdYmax->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
     thresholdYmax->ReplaceInOn();
     thresholdYmax->SetInValue(maxVal);
     thresholdYmax->ReplaceOutOff();
@@ -1155,7 +1155,7 @@ void ImageRD::AddPhasePlot(vtkRenderer* pRenderer,float scaling,float low,float 
         vtkSmartPointer<vtkImageThreshold> thresholdZmax = vtkSmartPointer<vtkImageThreshold>::New();
         thresholdZmax->SetInputConnection(thresholdZmin->GetOutputPort());
         thresholdZmax->SetUpperThreshold(maxVal);
-        thresholdZmax->SetThresholdFunction(vtkThreshold::Upper);
+        thresholdZmax->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
         thresholdZmax->ReplaceInOn();
         thresholdZmax->SetInValue(maxVal);
         thresholdZmax->ReplaceOutOff();
@@ -1385,7 +1385,7 @@ void ImageRD::GetAsMesh(vtkPolyData *out, const Properties &render_settings) con
                     vtkDataObject::FIELD_ASSOCIATION_CELLS,
                     vtkDataSetAttributes::SCALARS);
                 threshold->SetUpperThreshold(contour_level);
-                threshold->SetThresholdFunction(vtkThreshold::Upper);
+                threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
 
                 vtkSmartPointer<vtkTransform> transform = vtkSmartPointer<vtkTransform>::New();
                 transform->Translate (-.5, -.5, -.5);

@@ -411,9 +411,9 @@ endif()
 #-------------------------------------------wxWidgets----------------------------------------------
 
 if( APPLE )
-  # on macOS it's best to use locally installed wxWidgets headers and libs
-  set( wxWidgets_CONFIG_EXECUTABLE /usr/local/bin/wx-config )
-  set( wxWidgets_wxrc_EXECUTABLE /usr/local/bin/wxrc )         # not used, but no harm leaving it in
+  # on macOS you might want to to use locally installed wxWidgets headers and libs:
+  # set( wxWidgets_CONFIG_EXECUTABLE /usr/local/bin/wx-config )
+  # set( wxWidgets_wxrc_EXECUTABLE /usr/local/bin/wxrc )         # not used, but no harm leaving it in
 elseif(UNIX)
   # remove -rdynamic from link options on Linux to reduce size by about 1.2MB
   set( CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "" )

@@ -1101,8 +1101,7 @@ void ImageRD::AddPhasePlot(vtkRenderer* pRenderer,float scaling,float low,float 
     thresholdXmin->ReplaceOutOff();
     vtkSmartPointer<vtkImageThreshold> thresholdXmax = vtkSmartPointer<vtkImageThreshold>::New();
     thresholdXmax->SetInputConnection(thresholdXmin->GetOutputPort());
-    thresholdXmax->SetUpperThreshold(maxVal);
-    thresholdXmax->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+    thresholdXmax->ThresholdByUpper(maxVal);
     thresholdXmax->ReplaceInOn();
     thresholdXmax->SetInValue(maxVal);
     thresholdXmax->ReplaceOutOff();
@@ -1125,8 +1124,7 @@ void ImageRD::AddPhasePlot(vtkRenderer* pRenderer,float scaling,float low,float 
     thresholdYmin->ReplaceOutOff();
     vtkSmartPointer<vtkImageThreshold> thresholdYmax = vtkSmartPointer<vtkImageThreshold>::New();
     thresholdYmax->SetInputConnection(thresholdYmin->GetOutputPort());
-    thresholdYmax->SetUpperThreshold(maxVal);
-    thresholdYmax->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+    thresholdYmax->ThresholdByUpper(maxVal);
     thresholdYmax->ReplaceInOn();
     thresholdYmax->SetInValue(maxVal);
     thresholdYmax->ReplaceOutOff();
@@ -1154,8 +1152,7 @@ void ImageRD::AddPhasePlot(vtkRenderer* pRenderer,float scaling,float low,float 
         thresholdZmin->ReplaceOutOff();
         vtkSmartPointer<vtkImageThreshold> thresholdZmax = vtkSmartPointer<vtkImageThreshold>::New();
         thresholdZmax->SetInputConnection(thresholdZmin->GetOutputPort());
-        thresholdZmax->SetUpperThreshold(maxVal);
-        thresholdZmax->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+        thresholdZmax->ThresholdByUpper(maxVal);
         thresholdZmax->ReplaceInOn();
         thresholdZmax->SetInValue(maxVal);
         thresholdZmax->ReplaceOutOff();

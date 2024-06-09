@@ -23,7 +23,9 @@
 #include <algorithm>
 
 // SSE:
+#if USE_SSE
 #include <xmmintrin.h>
+#endif
 
 using namespace std;
 

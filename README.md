@@ -13,7 +13,7 @@ Ready supports 1D, 2D and 3D data, as well as polygonal and polyhedral meshes.
 
 <b>Linux:</b>
 ```
-sudo apt-get install libgtk-3-dev libxt-dev ocl-icd-opencl-dev libglu1-mesa-dev libvtk7-dev libwxgtk3.0-gtk3-dev cmake-curses-gui build-essential git
+sudo apt-get install libgtk-3-dev libxt-dev ocl-icd-opencl-dev libglu1-mesa-dev libvtk9-dev libwxgtk3.2-dev cmake-curses-gui build-essential git
 git clone https://github.com/GollyGang/ready.git
 cd ready
 cmake -DCMAKE_BUILD_TYPE=Release .

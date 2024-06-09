@@ -26,9 +26,16 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install dependencies
+      if: matrix.os == 'ubuntu24.04'
       run: |
         sudo apt-get update
         sudo apt-get install libvtk9-dev ocl-icd-opencl-dev libgtk-3-dev libwxgtk3.2-dev libpocl2
+
+    - name: Install dependencies
+      if: ${{ (matrix.os == 'ubuntu22.04') || (matrix.os == 'ubuntu20.04') }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install libvtk7-dev ocl-icd-opencl-dev libgtk-3-dev libwxgtk3.0-gtk3-dev libpocl2
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build

@@ -1,4 +1,4 @@
-#  Copyright 2011-2021 The Ready Bunch
+#  Copyright 2011-2024 The Ready Bunch
 #
 #  This file is part of Ready.
 #

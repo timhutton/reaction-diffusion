@@ -15,7 +15,7 @@ See Help/credits.html for a list of credits and acknowledgements.
                                    License
 ---------------------------------------------------------------------------------
 
-Copyright 2011-2021 The Ready Bunch
+Copyright 2011-2024 The Ready Bunch
 
 The Ready Bunch is: Tim Hutton, Robert Munafo, Andrew Trevorrow, Tom Rokicki, Dan Wills
 

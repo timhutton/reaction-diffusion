@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-13, macos-12]
+        os: [macos-14, macos-13, macos-12]
         build_type: [Debug, Release]
     runs-on: ${{ matrix.os }}
 
@@ -33,17 +33,25 @@ jobs:
 
     - name: Install dependencies
       run: |
-        brew install vtk wxmac
-        echo "MACOS_QT5_HINT=$(brew --prefix qt5)" >> $GITHUB_ENV
+        brew install vtk wxwidgets
+        echo "MACOS_QT5_HINT=$(brew --prefix qt@5)" >> $GITHUB_ENV
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Configure CMake
+    - name: Configure CMake (macOS 12, 13)
+      if: ${{ (matrix.os == 'macos-12') || (matrix.os == 'macos-13') }}
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: |
         cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_PREFIX_PATH=${{ env.MACOS_QT5_HINT }}
+
+    - name: Configure CMake (macOS 14)
+      if: matrix.os == 'macos-14'
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_PREFIX_PATH=${{ env.MACOS_QT5_HINT }} -DUSE_SSE=False
 
     - name: Build
       shell: bash
@@ -51,15 +59,16 @@ jobs:
       run: cmake --build . --config ${{matrix.build_type}}
 
     - name: Test (with OpenCL)
-      if: matrix.build_type == 'Release'
+      if: ${{ (matrix.build_type == 'Release') && (matrix.os != 'macos-14') }}
       # Run the full suite of tests since OpenCL is available
+      # Since macOS 14, OpenCL is no longer supported. :(
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: ctest -C ${{matrix.build_type}}
+      run: ctest --output-on-failure -C ${{matrix.build_type}}
 
     - name: Test (without OpenCL)
-      if: matrix.build_type == 'Debug'
+      if: ${{ (matrix.build_type == 'Debug') || (matrix.os == 'macos-14') }}
       # Run a restricted suite of tests (OpenCL is available but the tests are slow on Debug)
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: ctest -R rdy -C ${{matrix.build_type}}
+      run: ctest --output-on-failure -R rdy -C ${{matrix.build_type}}

@@ -1,4 +1,4 @@
-/*  Copyright 2011-2021 The Ready Bunch
+/*  Copyright 2011-2024 The Ready Bunch
 
     This file is part of Ready.
 
@@ -48,19 +48,19 @@ Overlay::Overlay(vtkXMLDataElement* node) : XML_Object(node)
         // is this an operation element?
         unique_ptr<BaseOperation> pOp = BaseOperation::New(subnode);
         if(pOp) {
-            this->op = move(pOp); // TODO: check if already supplied
+            this->op = std::move(pOp); // TODO: check if already supplied
             continue; // (save time parsing as other types)
         }
         // is this a fill element?
         unique_ptr<BaseFill> pFill = BaseFill::New(subnode);
         if(pFill) {
-            this->fill = move(pFill); // TODO: check if already supplied
+            this->fill = std::move(pFill); // TODO: check if already supplied
             continue;
         }
         // must be a shape element?
         unique_ptr<BaseShape> pShape = BaseShape::New(subnode);
         if(pShape)
-            this->shapes.push_back(move(pShape));
+            this->shapes.push_back(std::move(pShape));
         else throw runtime_error(string("Unknown overlay element: ")+subnode->GetName());
     }
     if(!this->op) throw runtime_error("overlay: missing operation element");
@@ -358,7 +358,7 @@ class PerlinNoise: public BaseFill
             read_optional_attribute(node, "num_octaves", this->num_octaves);
         }
 
-        void Reseed()
+        void Reseed() override
         {
             this->perlin.reseed(static_cast<unsigned int>(time(NULL)));
         }

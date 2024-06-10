@@ -1,4 +1,4 @@
-/*  Copyright 2011-2021 The Ready Bunch
+/*  Copyright 2011-2024 The Ready Bunch
 
     This file is part of Ready.
 
@@ -327,7 +327,7 @@ MyFrame::MyFrame(const wxString& title)
         s->SetModified(false);
         s->SetFilename("untitled");
         s->GenerateInitialPattern();
-        this->SetCurrentRDSystem(move(s));
+        this->SetCurrentRDSystem(std::move(s));
     }
 }
 
@@ -988,7 +988,7 @@ void MyFrame::OnAddMyPatterns(wxCommandEvent& event)
 
 void MyFrame::SetCurrentRDSystem(unique_ptr<AbstractRD> sys)
 {
-    this->system = move(sys);
+    this->system = std::move(sys);
     int iChem = IndexFromChemicalName(this->render_settings.GetProperty("active_chemical").GetChemical());
     iChem = min(iChem,this->system->GetNumberOfChemicals()-1); // ensure is in valid range
     this->render_settings.GetProperty("active_chemical").SetChemical(GetChemicalName(iChem));
@@ -1608,7 +1608,7 @@ void MyFrame::OnNewPattern(wxCommandEvent& event)
     this->SetStatusText(_("Generating data values..."));
     sys->CreateDefaultInitialPatternGenerator(sys->GetNumberOfChemicals());
     sys->GenerateInitialPattern();
-    this->SetCurrentRDSystem(move(sys));
+    this->SetCurrentRDSystem(std::move(sys));
 
     this->system->SetFilename("untitled");
     this->system->SetModified(false);
@@ -1680,7 +1680,7 @@ void MyFrame::OpenFile(const wxString& raw_path, bool remember)
         SetDefaultRenderSettings(this->render_settings);
         target_system = SystemFactory::CreateFromFile(path.mb_str(),this->is_opencl_available,opencl_platform,opencl_device,this->render_settings,warn_to_update);
         this->patterns_panel->SelectPath(path);
-        this->SetCurrentRDSystem(move(target_system));
+        this->SetCurrentRDSystem(std::move(target_system));
     }
     catch(const exception& e)
     {
@@ -2715,7 +2715,7 @@ void MyFrame::MakeDefaultImageSystemFromMesh(vtkUnstructuredGrid* ug)
     image_sys->CreateDefaultInitialPatternGenerator(2);
     image_sys->GenerateInitialPattern();
     this->render_settings.GetProperty("timesteps_per_render").SetInt(16);
-    this->SetCurrentRDSystem(move(image_sys));
+    this->SetCurrentRDSystem(std::move(image_sys));
 }
 
 // ---------------------------------------------------------------------
@@ -2734,7 +2734,7 @@ void MyFrame::MakeDefaultMeshSystemFromMesh(vtkUnstructuredGrid* ug)
     mesh_sys->SetNumberOfChemicals(2);
     mesh_sys->CreateDefaultInitialPatternGenerator(2);
     mesh_sys->GenerateInitialPattern();
-    this->SetCurrentRDSystem(move(mesh_sys));
+    this->SetCurrentRDSystem(std::move(mesh_sys));
 }
 
 // ---------------------------------------------------------------------
@@ -3515,7 +3515,7 @@ void MyFrame::OnConvertToFullKernel(wxCommandEvent& event)
         wxMessageBox(wxString::Format(_T("Error converting rule: %s"),e.what()));
         return;
     }
-    this->SetCurrentRDSystem(move(sys));
+    this->SetCurrentRDSystem(std::move(sys));
 }
 
 // ---------------------------------------------------------------------

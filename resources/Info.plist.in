@@ -23,7 +23,7 @@
     <key>CFBundleShortVersionString</key>
     <string>VERSION</string>
     <key>CFBundleGetInfoString</key>
-    <string>Ready version VERSION, Copyright 2011-2021 The Ready Bunch</string>
+    <string>Ready version VERSION, Copyright 2011-2024 The Ready Bunch</string>
     <key>LSRequiresCarbon</key>
     <true/>
 	<key>NSRequiresAquaSystemAppearance</key>

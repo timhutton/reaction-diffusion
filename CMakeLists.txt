@@ -1,4 +1,4 @@
-#  Copyright 2011-2021 The Ready Bunch
+#  Copyright 2011-2024 The Ready Bunch
 #
 #  This file is part of Ready.
 #
@@ -411,9 +411,9 @@ endif()
 #-------------------------------------------wxWidgets----------------------------------------------
 
 if( APPLE )
-  # on macOS it's best to use locally installed wxWidgets headers and libs
-  set( wxWidgets_CONFIG_EXECUTABLE /usr/local/bin/wx-config )
-  set( wxWidgets_wxrc_EXECUTABLE /usr/local/bin/wxrc )         # not used, but no harm leaving it in
+  # on macOS you might want to to use locally installed wxWidgets headers and libs:
+  # set( wxWidgets_CONFIG_EXECUTABLE /usr/local/bin/wx-config )
+  # set( wxWidgets_wxrc_EXECUTABLE /usr/local/bin/wxrc )         # not used, but no harm leaving it in
 elseif(UNIX)
   # remove -rdynamic from link options on Linux to reduce size by about 1.2MB
   set( CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "" )
@@ -448,17 +448,9 @@ else()
     ENDIF(VTK_USE_COCOA)
   else()
     find_package(PkgConfig)
-    if("-lwx_gtk2u_core-3.0" IN_LIST wxWidgets_LIBRARIES)
-      pkg_check_modules(GTK2 REQUIRED gtk+-2.0)
-      include_directories(${GTK2_INCLUDE_DIRS})
-      link_libraries(${GTK2_LIBRARIES})
-    elseif("-lwx_gtk3u_core-3.0" IN_LIST wxWidgets_LIBRARIES)
-      pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-      include_directories(${GTK3_INCLUDE_DIRS})
-      link_libraries(${GTK3_LIBRARIES})
-    else()
-      message(FATAL_ERROR "Didn't find -lwx_gtk2u_core-3.0 or -lwx_gtk3u_core-3.0 in wxWidgets_LIBRARIES - unable to detect GTK version to use: ${wxWidgets_LIBRARIES}")
-    endif()
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
+    include_directories(${GTK3_INCLUDE_DIRS})
+    link_libraries(${GTK3_LIBRARIES})
   endif()
 endif()
 

@@ -1,4 +1,4 @@
-/*  Copyright 2011-2021 The Ready Bunch
+/*  Copyright 2011-2024 The Ready Bunch
 
     This file is part of Ready.
 
@@ -362,7 +362,12 @@ void MeshRD::InitializeRenderPipeline(vtkRenderer* pRenderer,const Properties& r
             assign_attribute->Assign(chem.c_str(), vtkDataSetAttributes::SCALARS, vtkAssignAttribute::CELL_DATA);
             vtkSmartPointer<vtkThreshold> threshold = vtkSmartPointer<vtkThreshold>::New();
             threshold->SetInputConnection(assign_attribute->GetOutputPort());
+#if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 1)
+            threshold->SetUpperThreshold(contour_level);
+            threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+#else
             threshold->ThresholdByUpper(contour_level);
+#endif
             vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
             mapper->SetInputConnection(threshold->GetOutputPort());
             mapper->SetLookupTable(lut);
@@ -839,7 +844,12 @@ void MeshRD::GetAsMesh(vtkPolyData *out, const Properties &render_settings) cons
         assign_attribute->Assign(activeChemical.c_str(), vtkDataSetAttributes::SCALARS, vtkAssignAttribute::CELL_DATA);
         vtkSmartPointer<vtkThreshold> threshold = vtkSmartPointer<vtkThreshold>::New();
         threshold->SetInputConnection(assign_attribute->GetOutputPort());
+#if VTK_MAJOR_VERSION > 9 || (VTK_MAJOR_VERSION == 9 && VTK_MINOR_VERSION >= 1)
+        threshold->SetUpperThreshold(contour_level);
+        threshold->SetThresholdFunction(vtkThreshold::THRESHOLD_UPPER);
+#else
         threshold->ThresholdByUpper(contour_level);
+#endif
         vtkSmartPointer<vtkDataSetSurfaceFilter> geom = vtkSmartPointer<vtkDataSetSurfaceFilter>::New();
         geom->SetInputConnection(threshold->GetOutputPort());
         geom->Update();

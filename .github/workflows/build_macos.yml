@@ -59,14 +59,15 @@ jobs:
       run: cmake --build . --config ${{matrix.build_type}}
 
     - name: Test (with OpenCL)
-      if: matrix.build_type == 'Release'
+      if: ${{ (matrix.build_type == 'Release') && (matrix.os != 'macos-14') }}
       # Run the full suite of tests since OpenCL is available
+      # Since macOS 14, OpenCL is no longer supported. :(
       shell: bash
       working-directory: ${{runner.workspace}}/build
       run: ctest --output-on-failure -C ${{matrix.build_type}}
 
     - name: Test (without OpenCL)
-      if: matrix.build_type == 'Debug'
+      if: ${{ (matrix.build_type == 'Debug') || (matrix.os == 'macos-14') }}
       # Run a restricted suite of tests (OpenCL is available but the tests are slow on Debug)
       shell: bash
       working-directory: ${{runner.workspace}}/build
